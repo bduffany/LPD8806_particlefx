@@ -33,7 +33,7 @@ void StripSpace::add(LPD8806 * str) {
   ++length;
 }
 
-/** Return the last LPD8806 pointer in this linStripSpacek */
+/** Return the last LPD8806 pointer in this StripSpace */
 LPD8806 * StripSpace::getLast() {
   return last->getDatum();
 }
