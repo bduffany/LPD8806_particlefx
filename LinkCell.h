@@ -10,6 +10,7 @@ class LinkCell {
     LinkCell * next;
   public:
     LinkCell(LPD8806 * datum, LinkCell * next);
+    void setDatum(LPD8806 * d);
     LPD8806 * getDatum();
     void setNext(LinkCell * n);
     LinkCell * getNext();

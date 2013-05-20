@@ -6,6 +6,11 @@ LinkCell::LinkCell(LPD8806 * datum, LinkCell * next) {
   this->next = next;
 }
 
+/** Sets the LPD8806 pointer contained by this cell to d */
+void LinkCell::setDatum(LPD8806 * d) {
+  datum = d;
+}
+
 /** Returns the LPD8806 pointer contained by this cell */
 LPD8806 * LinkCell::getDatum() {
   return datum;
