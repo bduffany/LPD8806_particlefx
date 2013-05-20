@@ -8,6 +8,23 @@ StripSpace::StripSpace(LPD8806 * start) {
   length = 1;
 }
 
+/** Constructor that takes the number of strips, followed by num LPD8806 pointers */
+StripSpace::StripSpace(int num, ...) {
+  va_list arguments;
+  va_start(arguments, num);
+  LPD8806 * ptr = va_arg(arguments, LPD8806 * );
+  LinkCell empty = LinkCell(NULL, NULL);
+  LinkCell cells[num] = {empty};
+  cells[0].setDatum(ptr);
+  for (int i = 1; i < num; i++ ) {
+      ptr = va_arg(arguments, LPD8806 * );
+      cells[i].setDatum(ptr);
+      cells[i - 1].setNext(ptr);
+  }
+  va_end(arguments);
+  length = num;
+} 
+
 /** Add another strip to the StripSpace */
 void StripSpace::add(LPD8806 * str) {
   LinkCell l = LinkCell(str, NULL);

@@ -3,6 +3,7 @@
 
 #include "LPD8806.h"
 #include "LinkCell.h"
+#include <stdarg.h>
 
 /** Class to represent a chain of disjoint LPD8806 objects */
 class StripSpace {
@@ -12,6 +13,7 @@ private:
   uint8_t length;
 public:
   StripSpace(LPD8806 * start);
+  StripSpace(int num, ...);
   LPD8806 * getStrip(uint16_t p);
   uint16_t getPixelIndex(uint16_t p);
   uint16_t numPixels();
