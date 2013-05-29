@@ -2,15 +2,28 @@
 #define STRIPSPACE_H
 
 #include "LPD8806.h"
-#include "LinkCell.h"
 #include <stdarg.h>
 
 /** Class to represent a chain of disjoint LPD8806 objects */
 class StripSpace {
 private:
+  class LinkCell {
+    private:
+      LPD8806 * datum;
+      LinkCell * next;
+    public:
+      LinkCell(LPD8806 * datum, LinkCell * next);
+      void setDatum(LPD8806 * d);
+      LPD8806 * getDatum();
+      void setNext(LinkCell * n);
+      LinkCell * getNext();
+      bool hasNext();
+  };
   LinkCell * start;
   LinkCell * last;
   uint8_t length;
+  /** Class representing a single cell of the LPD8806 linked list */
+  
 public:
   StripSpace(LPD8806 * start);
   StripSpace(int num, ...);

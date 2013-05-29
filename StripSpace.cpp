@@ -78,3 +78,35 @@ uint16_t StripSpace::numPixels() {
   }
   return n;
 }
+
+/** Constructor for a link cell */
+StripSpace::LinkCell::LinkCell(LPD8806 * datum, LinkCell * next) {
+  this->datum = datum;
+  this->next = next;
+}
+
+/** Sets the LPD8806 pointer contained by this cell to d */
+void StripSpace::LinkCell::setDatum(LPD8806 * d) {
+  datum = d;
+}
+
+/** Returns the LPD8806 pointer contained by this cell */
+LPD8806 * StripSpace::LinkCell::getDatum() {
+  return datum;
+}
+
+/** Sets the next LinkCell to which this cell should point */
+void StripSpace::LinkCell::setNext(LinkCell * n) {
+  next = n;
+}
+
+/** Get the next link cell */
+LinkCell * StripSpace::LinkCell::getNext() {
+  return next;
+}
+
+/** Return whether the next element is not NULL */
+bool StripSpace::LinkCell::hasNext() {
+  if (next) return true;
+  return false;
+}
