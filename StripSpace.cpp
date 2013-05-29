@@ -2,8 +2,7 @@
 
 /** Constructor that takes the start strip as a parameter */
 StripSpace::StripSpace(LPD8806 * start) {
-  LinkCell s = LinkCell(start, NULL);
-  this->start = &s;
+  this->start = new LinkCell(start);
   last = this->start;
   length = 1;
 }
@@ -12,23 +11,23 @@ StripSpace::StripSpace(LPD8806 * start) {
 StripSpace::StripSpace(int num, ...) {
   va_list arguments;
   va_start(arguments, num);
-  LPD8806 * ptr = va_arg(arguments, LPD8806 * );
-  LinkCell empty = LinkCell(NULL, NULL);
-  LinkCell cells[num] = {empty};
-  cells[0].setDatum(ptr);
+  LPD8806 * lpd = va_arg(arguments, LPD8806 * );
+  LinkCell * prev = new LinkCell(lpd);
+  LinkCell * cur;
+  start = cell;
   for (int i = 1; i < num; i++ ) {
-      ptr = va_arg(arguments, LPD8806 * );
-      cells[i].setDatum(ptr);
-      cells[i - 1].setNext(ptr);
+      lpd = va_arg(arguments, LPD8806 * );
+      cur = new LinkCell(lpd, NULL);
+      prev->setNext(cur);
+      prev = cur;
   }
-  va_end(arguments);
   length = num;
+  va_end(arguments);
 } 
 
 /** Add another strip to the StripSpace */
 void StripSpace::add(LPD8806 * str) {
-  LinkCell l = LinkCell(str, NULL);
-  last->setNext(&l);
+  last->setNext(new LinkCell(str));
   last = last->getNext();
   ++length;
 }
@@ -79,10 +78,15 @@ uint16_t StripSpace::numPixels() {
   return n;
 }
 
-/** Constructor for a link cell */
+/** Constructor for a link cell that takes the datum and next cell as the params */
 StripSpace::LinkCell::LinkCell(LPD8806 * datum, LinkCell * next) {
   this->datum = datum;
   this->next = next;
+}
+
+/** Constructor for a link cell that only takes the datum */
+StripSpace::LinkCell::LinkCell(LPD8806 * datum) {
+  LinkCell(datum, NULL);
 }
 
 /** Sets the LPD8806 pointer contained by this cell to d */
